@@ -20,7 +20,7 @@ export default function RegionHeatmap({ filters }) {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("http://localhost:5000/api/records/region-heatmap", { params: filters })
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/region-heatmap", { params: filters })
       .then((res) => {
         setData(res.data);
         setIsLoading(false);

@@ -14,7 +14,7 @@ export default function SourceDistribution({ filters }) {
     setLoading(true);
 
     axios
-      .get("http://localhost:5000/api/records/source/distribution", { params: filters })
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/source/distribution", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

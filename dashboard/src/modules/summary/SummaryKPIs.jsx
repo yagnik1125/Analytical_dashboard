@@ -11,7 +11,7 @@ export default function SummaryKPIs({ filters }) {
     setLoading(true);
 
     axios
-      .get("http://localhost:5000/api/records/summary/kpis", { params: filters })
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/summary/kpis", { params: filters })
       .then((res) => {
         setKpis(res.data);
         setLoading(false);

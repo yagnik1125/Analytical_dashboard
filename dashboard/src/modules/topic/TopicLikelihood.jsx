@@ -9,7 +9,7 @@ export default function TopicLikelihood({ filters }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/records/topic/likelihood", { params: filters })
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/topic/likelihood", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

@@ -20,7 +20,7 @@ export default function InsightsAreaChart({ filters }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/records/time/insights-per-year", { params: filters })
+    axios.get("https://analytical-dashboard-vfwl.onrender.com/api/records/time/insights-per-year", { params: filters })
       .then(res => setData(res.data))
       .finally(() => setLoading(false));
   }, [filters]);

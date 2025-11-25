@@ -12,7 +12,7 @@ export default function RelevanceOverYears({ filters }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/records/time/relevance-over-years", { params: filters })
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/time/relevance-over-years", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

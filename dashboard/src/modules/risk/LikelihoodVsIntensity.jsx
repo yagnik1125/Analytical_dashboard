@@ -18,7 +18,7 @@ export default function LikelihoodVsIntensity({ filters }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/records/risk/likelihood-intensity", {
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/risk/likelihood-intensity", {
         params: filters,
       })
       .then(res => {

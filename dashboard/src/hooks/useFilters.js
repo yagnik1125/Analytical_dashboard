@@ -29,7 +29,7 @@ export default function useFilters() {
   // Fetch available filter options
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/records/filters")
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/filters")
       .then((res) => {
         setOptions(res.data);
       })

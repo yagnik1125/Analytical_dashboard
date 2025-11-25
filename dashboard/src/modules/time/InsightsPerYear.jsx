@@ -21,7 +21,7 @@ export default function InsightsPerYear({ filters }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/records/time/insights-per-year", { params: filters })
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/time/insights-per-year", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

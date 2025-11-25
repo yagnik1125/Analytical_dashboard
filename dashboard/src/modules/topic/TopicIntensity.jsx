@@ -9,7 +9,7 @@ export default function TopicIntensity({ filters }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/records/topic/intensity", { params: filters })
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/topic/intensity", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

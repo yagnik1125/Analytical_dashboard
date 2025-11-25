@@ -23,7 +23,7 @@ export default function SourceLikelihood({ filters }) {
     setLoading(true);
 
     axios
-      .get("http://localhost:5000/api/records/source/likelihood", { params: filters })
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/source/likelihood", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

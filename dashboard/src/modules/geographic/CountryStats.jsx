@@ -21,7 +21,7 @@ export default function CountryStats({ filters }) {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("http://localhost:5000/api/records/country-stats", {
+      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/country-stats", {
         params: filters,
       })
       .then((res) => {
