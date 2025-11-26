@@ -6,20 +6,21 @@ import { useState } from "react";
 
 export default function DashboardLayout({ children ,filters, setFilters, options }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
-    <div className="w-full h-screen flex overflow-hidden bg-gray-50">
+    <div className="flex bg-gray-100 h-screen overflow-hidden">
 
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Area */}
       <div className="flex-1 flex flex-col overflow-y-auto">
 
         {/* Navbar with filter button */}
-        <Navbar onOpenFilters={() => setIsFilterOpen(true)} />
+        <Navbar onOpenFilters={() => setIsFilterOpen(true)} onOpenSidebar={() => setIsSidebarOpen(true)} />
 
         {/* Page Content */}
-        <main className="p-6 min-h-[calc(100vh-64px)]">
+        <main className="p-4 md:p-6 min-h-screen">
           {children}
         </main>
       </div>

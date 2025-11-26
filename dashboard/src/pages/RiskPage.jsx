@@ -14,13 +14,10 @@ export default function RiskPage({filters, setFilters, filterOptions, setFilterO
         {/* <Filters /> */}
       </div>
 
-      <GridLayout cols={2}>
+      <GridLayout>
         <HighRiskTopics filters={filters} />
         <LikelihoodVsIntensity filters={filters} />
-
-        <div className="col-span-2">
-          <RiskMatrix filters={filters} />
-        </div>
+        <RiskMatrix filters={filters} />
       </GridLayout>
     </DashboardLayout>
   );

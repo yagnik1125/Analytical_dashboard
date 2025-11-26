@@ -14,13 +14,10 @@ export default function TimePage({filters, setFilters, filterOptions, setFilterO
         {/* <Filters /> */}
       </div>
 
-      <GridLayout cols={2}>
+      <GridLayout>
         <InsightsPerYear filters={filters} />
         <IntensityByYear filters={filters} />
-
-        <div className="col-span-2">
-          <RelevanceOverYears filters={filters} />
-        </div>
+        <RelevanceOverYears filters={filters} />
       </GridLayout>
     </DashboardLayout>
   );

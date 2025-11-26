@@ -14,12 +14,10 @@ export default function SectorPage({filters, setFilters, filterOptions, setFilte
         {/* <Filters /> */}
       </div>
 
-      <GridLayout cols={2}>
+      <GridLayout>
         <SectorDistribution filters={filters} />
         <SectorIntensity filters={filters} />
-        <div className="col-span-2">
-          <SectorLikelihood filters={filters} />
-        </div>
+        <SectorLikelihood filters={filters} />
       </GridLayout>
     </DashboardLayout>
   );

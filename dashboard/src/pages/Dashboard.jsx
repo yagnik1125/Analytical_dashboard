@@ -145,13 +145,10 @@ export default function Dashboard({filters, setFilters, filterOptions, setFilter
         /> */}
       </div>
 
-      <GridLayout cols={2}>
+      <GridLayout>
         <InsightsAreaChart filters={filters} />
         <PestlePieChart filters={filters} />
-
-        <div className="col-span-2">
-          <SectorRadarChart filters={filters} />
-        </div>
+        <SectorRadarChart filters={filters} />
       </GridLayout>
     </DashboardLayout>
   );

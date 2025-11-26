@@ -14,13 +14,10 @@ export default function TopicPage({filters, setFilters, filterOptions, setFilter
         {/* <Filters /> */}
       </div>
 
-      <GridLayout cols={2}>
+      <GridLayout>
         <TopicIntensity filters={filters} />
         <TopicLikelihood filters={filters} />
-
-        <div className="col-span-2">
-          <TopTopics filters={filters} />
-        </div>
+        <TopTopics filters={filters} />
       </GridLayout>
     </DashboardLayout>
   );

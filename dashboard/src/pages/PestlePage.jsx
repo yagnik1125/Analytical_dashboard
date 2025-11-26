@@ -14,12 +14,10 @@ export default function PestlePage({filters, setFilters, filterOptions, setFilte
         {/* <Filters /> */}
       </div>
 
-      <GridLayout cols={2}>
+      <GridLayout>
         <PestleDistribution filters={filters} />
         <PestleIntensity filters={filters} />
-        <div className="col-span-2">
-          <PestleLikelihood filters={filters} />
-        </div>
+        <PestleLikelihood filters={filters} />
       </GridLayout>
     </DashboardLayout>
   );

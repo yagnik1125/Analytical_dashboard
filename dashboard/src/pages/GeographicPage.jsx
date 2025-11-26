@@ -14,13 +14,10 @@ export default function GeographicPage({filters, setFilters, filterOptions, setF
         {/* <Filters /> */}
       </div>
 
-      <GridLayout cols={2}>
+      <GridLayout>
         <CountryStats filters={filters} />
         <RegionHeatmap filters={filters} />
-
-        <div className="col-span-2">
-          <SectorByRegion filters={filters} />
-        </div>
+        <SectorByRegion filters={filters} />
       </GridLayout>
     </DashboardLayout>
   );

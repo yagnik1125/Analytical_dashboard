@@ -12,7 +12,7 @@ export default function CorrelationPage({filters, setFilters, filterOptions, set
         {/* <Filters /> */}
       </div>
 
-      <GridLayout cols={2}>
+      <GridLayout>
         <CorrelationMatrix filters={filters} />
         <IntensityRelevanceScatter filters={filters} />
       </GridLayout>
