@@ -49,7 +49,7 @@ root/
 ```bash
 cd backend
 npm install
-npm start        # server at http://localhost:5000
+npm run dev        # server at http://localhost:5000
 ```
 
 ### Install & Run Dashboard
