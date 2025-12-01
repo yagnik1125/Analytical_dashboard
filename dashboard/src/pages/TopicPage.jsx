@@ -5,6 +5,7 @@ import Filters from "../components/Filters";
 import TopicIntensity from "../modules/topic/TopicIntensity";
 import TopicLikelihood from "../modules/topic/TopicLikelihood";
 import TopTopics from "../modules/topic/TopTopics";
+import AISummaryWidget from "../components/AISummaryWidget";
 
 export default function TopicPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -19,6 +20,7 @@ export default function TopicPage({filters, setFilters, filterOptions, setFilter
         <TopicLikelihood filters={filters} />
         <TopTopics filters={filters} />
       </GridLayout>
+      <AISummaryWidget page="topic" filters={filters} />
     </DashboardLayout>
   );
 }

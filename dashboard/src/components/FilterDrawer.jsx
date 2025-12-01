@@ -39,17 +39,17 @@ export default function FilterDrawer({ isOpen, onClose, filters, setFilters, opt
         {/* Filters Content */}
         <div className="overflow-y-auto h-[calc(100vh-120px)] pr-2">
           <Filters filters={filters} setFilters={setFilters} options={options} />
+          {/* Reset Button */}
+          <div className="mt-5 flex justify-end">
+            <button
+              onClick={() => setFilters({})}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition"
+            >
+              Clear Filters
+            </button>
+          </div>
         </div>
 
-        {/* Reset Button */}
-        <div className="mt-5 flex justify-end">
-          <button
-            onClick={() => setFilters({})}
-            className="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition"
-          >
-            Clear Filters
-          </button>
-        </div>
       </div>
     </div>
   );

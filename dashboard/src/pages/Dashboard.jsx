@@ -132,6 +132,7 @@ import Loader from "../components/Loader"
 import InsightsAreaChart from "../modules/dashboard/InsightsAreaChart";
 import PestlePieChart from "../modules/dashboard/PestlePieChart";
 import SectorRadarChart from "../modules/dashboard/SectorRadarChart";
+import AISummaryWidget from "../components/AISummaryWidget";
 
 export default function Dashboard({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -150,6 +151,7 @@ export default function Dashboard({filters, setFilters, filterOptions, setFilter
         <PestlePieChart filters={filters} />
         <SectorRadarChart filters={filters} />
       </GridLayout>
+      <AISummaryWidget page="dashboard" filters={filters} />
     </DashboardLayout>
   );
 }

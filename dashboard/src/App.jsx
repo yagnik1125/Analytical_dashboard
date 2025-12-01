@@ -15,6 +15,7 @@ import PestlePage from "./pages/PestlePage";
 import GeographicPage from "./pages/GeographicPage";
 import SummaryPage from "./pages/SummaryPage";
 import TimePage from "./pages/TimePage";
+import AISummary from "./pages/AiSummary";
 import { useState,useEffect } from "react";
 import axios from "axios";
 import Loader from "./components/Loader";
@@ -42,6 +43,7 @@ export default function App() {
       <Route path="/geographic" element={<GeographicPage filters={filters} setFilters={setFilters} filterOptions={filterOptions} setFilterOptions={setFilterOptions} />} />
       <Route path="/summary" element={<SummaryPage filters={filters} setFilters={setFilters} filterOptions={filterOptions} setFilterOptions={setFilterOptions} />} />
       <Route path="/time" element={<TimePage filters={filters} setFilters={setFilters} filterOptions={filterOptions} setFilterOptions={setFilterOptions} />} />
+      {/* <Route path="/sum" element={<AISummary filters={filters} setFilters={setFilters} filterOptions={filterOptions} setFilterOptions={setFilterOptions} />} /> */}
 
       <Route path="*" element={<DashboardPage filters={filters} setFilters={setFilters} filterOptions={filterOptions} setFilterOptions={setFilterOptions} />} />
     </Routes>

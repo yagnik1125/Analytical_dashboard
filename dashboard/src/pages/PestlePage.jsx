@@ -5,6 +5,7 @@ import Filters from "../components/Filters";
 import PestleDistribution from "../modules/pestle/PestleDistribution";
 import PestleIntensity from "../modules/pestle/PestleIntensity";
 import PestleLikelihood from "../modules/pestle/PestleLikelihood";
+import AISummaryWidget from "../components/AISummaryWidget";
 
 export default function PestlePage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -19,6 +20,7 @@ export default function PestlePage({filters, setFilters, filterOptions, setFilte
         <PestleIntensity filters={filters} />
         <PestleLikelihood filters={filters} />
       </GridLayout>
+      <AISummaryWidget page="pestle" filters={filters} />
     </DashboardLayout>
   );
 }

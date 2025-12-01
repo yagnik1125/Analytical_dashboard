@@ -5,6 +5,7 @@ import Filters from "../components/Filters";
 import HighRiskTopics from "../modules/risk/HighRiskTopics";
 import LikelihoodVsIntensity from "../modules/risk/LikelihoodVsIntensity";
 import RiskMatrix from "../modules/risk/RiskMatrix";
+import AISummaryWidget from "../components/AISummaryWidget";
 
 export default function RiskPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -19,6 +20,7 @@ export default function RiskPage({filters, setFilters, filterOptions, setFilterO
         <LikelihoodVsIntensity filters={filters} />
         <RiskMatrix filters={filters} />
       </GridLayout>
+      <AISummaryWidget page="risk" filters={filters} />
     </DashboardLayout>
   );
 }

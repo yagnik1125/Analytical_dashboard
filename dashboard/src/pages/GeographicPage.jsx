@@ -5,6 +5,7 @@ import Filters from "../components/Filters";
 import CountryStats from "../modules/geographic/CountryStats";
 import RegionHeatmap from "../modules/geographic/RegionHeatmap";
 import SectorByRegion from "../modules/geographic/SectorByRegion";
+import AISummaryWidget from "../components/AISummaryWidget";
 
 export default function GeographicPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -19,6 +20,7 @@ export default function GeographicPage({filters, setFilters, filterOptions, setF
         <RegionHeatmap filters={filters} />
         <SectorByRegion filters={filters} />
       </GridLayout>
+      <AISummaryWidget page="geographic" filters={filters} />
     </DashboardLayout>
   );
 }

@@ -3,6 +3,7 @@ import GridLayout from "../layout/GridLayout";
 
 import SummaryKPIs from "../modules/summary/SummaryKPIs";
 import MissingDataStats from "../modules/summary/MissingDataStats";
+import AISummaryWidget from "../components/AISummaryWidget";
 
 export default function SummaryPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -13,6 +14,7 @@ export default function SummaryPage({filters, setFilters, filterOptions, setFilt
         <SummaryKPIs filters={filters} />
         <MissingDataStats filters={filters} />
       </GridLayout>
+      <AISummaryWidget page="summary" filters={filters} />
     </DashboardLayout>
   );
 }

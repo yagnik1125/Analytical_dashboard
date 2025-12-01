@@ -5,6 +5,7 @@ import Filters from "../components/Filters";
 import SectorDistribution from "../modules/sector/SectorDistribution";
 import SectorIntensity from "../modules/sector/SectorIntensity";
 import SectorLikelihood from "../modules/sector/SectorLikelihood";
+import AISummaryWidget from "../components/AISummaryWidget";
 
 export default function SectorPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -19,6 +20,7 @@ export default function SectorPage({filters, setFilters, filterOptions, setFilte
         <SectorIntensity filters={filters} />
         <SectorLikelihood filters={filters} />
       </GridLayout>
+      <AISummaryWidget page="sector" filters={filters} />
     </DashboardLayout>
   );
 }

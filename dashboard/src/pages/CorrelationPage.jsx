@@ -3,6 +3,7 @@ import GridLayout from "../layout/GridLayout";
 import Filters from "../components/Filters";
 import CorrelationMatrix from "../modules/correlation/CorrelationMatrix";
 import IntensityRelevanceScatter from "../modules/correlation/IntensityRelevanceScatter";
+import AISummaryWidget from "../components/AISummaryWidget";
 
 export default function CorrelationPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -16,6 +17,8 @@ export default function CorrelationPage({filters, setFilters, filterOptions, set
         <CorrelationMatrix filters={filters} />
         <IntensityRelevanceScatter filters={filters} />
       </GridLayout>
+
+      <AISummaryWidget page="correlation" filters={filters}/>
     </DashboardLayout>
   );
 }
