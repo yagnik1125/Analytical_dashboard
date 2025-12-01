@@ -201,7 +201,7 @@ export default function AISummaryWidget({ page, filters }) {
   return (
     <>
       {/* Floating Button */}
-      <button
+      {!open && (<button
         onClick={() => {
           if (!open) {
             setOpen(true);
@@ -210,14 +210,14 @@ export default function AISummaryWidget({ page, filters }) {
             setOpen(false);
           }
         }}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-blue-300 border border-gray-500 text-white rounded-full shadow-xl hover:bg-blue-700 flex items-center justify-center text-3xl"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-blue-300 border border-gray-500 text-white rounded-full shadow-xl hover:bg-blue-700 flex items-center justify-center text-3xl z-50"
       >
         🔍
-      </button>
+      </button>)}
 
       {/* Popup Summary Box */}
       {open && (
-        <div className="fixed bottom-20 right-6 bg-white w-96 max-h-[70vh] shadow-xl rounded-lg p-4 overflow-y-auto border border-gray-200">
+        <div className="fixed bottom-0 right-0 m-2 sm:m-4 bg-white w-[95vw] max-w-md max-h-[80vh] shadow-xl rounded-lg p-4 overflow-y-auto border border-gray-200 z-40">
           <div className="flex justify-between items-center border-b pb-2">
             <h2 className="font-semibold text-lg">AI Summary Insights</h2>
             <button onClick={() => setOpen(false)} className="text-gray-500 hover:text-gray-700">
