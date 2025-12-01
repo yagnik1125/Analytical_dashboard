@@ -7,7 +7,7 @@ export default function AISummary({filters, setFilters, filterOptions, setFilter
   const [error, setError] = useState(null);
   const fetchSummary = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/records/summary", {
+      const res = await fetch("https://analytical-dashboard-vfwl.onrender.com/api/records/summary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mode: "ai", filters }),  // Fetch AI + Local summary

@@ -12,7 +12,7 @@ export default function AISummaryWidget({ page, filters }) {
     setLoading(true);
     setTypedSummary(""); // reset typing effect
     try {
-      const res = await axios.post("http://localhost:5000/api/records/page-summary", {
+      const res = await axios.post("https://analytical-dashboard-vfwl.onrender.com//api/records/page-summary", {
         page,
         filters
       });
