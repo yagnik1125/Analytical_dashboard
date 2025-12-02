@@ -6,6 +6,7 @@ import InsightsPerYear from "../modules/time/InsightsPerYear";
 import IntensityByYear from "../modules/time/IntensityByYear";
 import RelevanceOverYears from "../modules/time/RelevanceOverYears";
 import AISummaryWidget from "../components/AISummaryWidget";
+import ChatAnalytics from "../components/ChatAnalytics";
 
 export default function TimePage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -20,6 +21,7 @@ export default function TimePage({filters, setFilters, filterOptions, setFilterO
         <IntensityByYear filters={filters} />
         <RelevanceOverYears filters={filters} />
       </GridLayout>
+      <ChatAnalytics page="time" filters={filters} />
       <AISummaryWidget page="time" filters={filters} />
     </DashboardLayout>
   );

@@ -6,6 +6,7 @@ import TopicIntensity from "../modules/topic/TopicIntensity";
 import TopicLikelihood from "../modules/topic/TopicLikelihood";
 import TopTopics from "../modules/topic/TopTopics";
 import AISummaryWidget from "../components/AISummaryWidget";
+import ChatAnalytics from "../components/ChatAnalytics";
 
 export default function TopicPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -20,6 +21,7 @@ export default function TopicPage({filters, setFilters, filterOptions, setFilter
         <TopicLikelihood filters={filters} />
         <TopTopics filters={filters} />
       </GridLayout>
+      <ChatAnalytics page="topic" filters={filters} />
       <AISummaryWidget page="topic" filters={filters} />
     </DashboardLayout>
   );

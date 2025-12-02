@@ -4,6 +4,7 @@ import Filters from "../components/Filters";
 import CorrelationMatrix from "../modules/correlation/CorrelationMatrix";
 import IntensityRelevanceScatter from "../modules/correlation/IntensityRelevanceScatter";
 import AISummaryWidget from "../components/AISummaryWidget";
+import ChatAnalytics from "../components/ChatAnalytics";
 
 export default function CorrelationPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -17,7 +18,7 @@ export default function CorrelationPage({filters, setFilters, filterOptions, set
         <CorrelationMatrix filters={filters} />
         <IntensityRelevanceScatter filters={filters} />
       </GridLayout>
-
+      <ChatAnalytics page="correlation" filters={filters} />
       <AISummaryWidget page="correlation" filters={filters}/>
     </DashboardLayout>
   );

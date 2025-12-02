@@ -763,6 +763,11 @@ const toNumber = (v) => {
   return Number.isNaN(n) ? 0 : n;
 };
 
+function avg(arr) {
+  if (!arr.length) return 0;
+  return arr.reduce((a,b)=>a+b,0) / arr.length;
+}
+
 function pearson(x,y){
   if(x.length<3||x.length!==y.length)return 0;
   const mX=x.reduce((a,b)=>a+b,0)/x.length,mY=y.reduce((a,b)=>a+b,0)/y.length;
@@ -962,6 +967,35 @@ router.post("/summary", async (req,res)=>{
 });
 
 // ============ Universal Analytics Engine ============
+function compressInsights(insights,page){
+  const clone = {...insights};
+
+  // limit large objects
+  const MAX_ITEMS = 15;  // adjust as needed
+
+  for(const key in clone){
+    const val = clone[key];
+
+    if(Array.isArray(val) && val.length > MAX_ITEMS){
+      clone[key] = val.slice(0, MAX_ITEMS);
+    }
+
+    // If nested map-like objects
+    if(typeof val === "object" && !Array.isArray(val)){
+      const keys = Object.keys(val);
+      if(keys.length > MAX_ITEMS){
+        const trimmed = keys.slice(0,MAX_ITEMS);
+        clone[key] = trimmed.reduce((acc,k)=>{
+          acc[k] = val[k];
+          return acc;
+        },{});
+      }
+    }
+  }
+
+  return clone;
+}
+
 router.post("/page-summary", async (req,res)=>{
   try{
     const { filters={}, page } = req.body;
@@ -987,35 +1021,6 @@ router.post("/page-summary", async (req,res)=>{
         if(readableLabels[key]) return `${value}  <-- ${readableLabels[key]}`;
         return value;
       },2);
-    }
-
-    function compressInsights(insights,page){
-      const clone = {...insights};
-
-      // limit large objects
-      const MAX_ITEMS = 15;  // adjust as needed
-
-      for(const key in clone){
-        const val = clone[key];
-
-        if(Array.isArray(val) && val.length > MAX_ITEMS){
-          clone[key] = val.slice(0, MAX_ITEMS);
-        }
-
-        // If nested map-like objects
-        if(typeof val === "object" && !Array.isArray(val)){
-          const keys = Object.keys(val);
-          if(keys.length > MAX_ITEMS){
-            const trimmed = keys.slice(0,MAX_ITEMS);
-            clone[key] = trimmed.reduce((acc,k)=>{
-              acc[k] = val[k];
-              return acc;
-            },{});
-          }
-        }
-      }
-
-      return clone;
     }
 
     // PAGE-SPECIFIC SUMMARIES
@@ -1140,6 +1145,85 @@ router.post("/page-summary", async (req,res)=>{
   }catch(err){
     console.error(err);
     res.status(500).json({error:"Summary generation failed"});
+  }
+});
+
+router.post("/chat-analytics", async (req, res) => {
+  try {
+    const { message, filters = {}, page = "dashboard", history = [] } = req.body;
+
+    // Build DB query & fetch docs
+    const q = buildQuery(filters);
+    const docs = await Record.find(q).limit(5000);
+
+    // Extract numbers
+    const intensity = docs.map(d => d.intensity || 0);
+    const likelihood = docs.map(d => d.likelihood || 0);
+    const relevance = docs.map(d => d.relevance || 0);
+
+    // Core computed insights (common for chatbot)
+    const computed = {
+      count: docs.length,
+      avgIntensity: avg(intensity),
+      avgLikelihood: avg(likelihood),
+      avgRelevance: avg(relevance),
+      corr_ir: pearson(intensity, relevance),
+      corr_il: pearson(intensity, likelihood),
+      corr_rl: pearson(relevance, likelihood),
+      topSectors: groupBy(docs, "sector"),
+      topCountries: groupBy(docs, "country"),
+      timeTrend: avgBy(docs, "year", "intensity")
+    };
+
+    const compressed = compressInsights(computed, page);
+
+    // Build conversation messages
+    const chatMessages = [
+      {
+        role: "system",
+        content: `
+        You are an expert data analyst chatbot.
+        Your job is to explain insights in simple English.
+        - ALWAYS be conversational like ChatGPT.
+        - ALWAYS explain with numbers from the dataset when relevant.
+        - Translate:
+          intensity → risk intensity
+          likelihood → chance of occurrence
+          relevance → business relevance
+        - You can perform reasoning based on the provided dataset insights.
+        `
+      },
+      ...history,
+      {
+        role: "user",
+        content: `
+        User Message: "${message}"
+
+        Filters: ${JSON.stringify(filters, null, 2)}
+        Insights Snapshot: ${JSON.stringify(compressed, null, 2)}
+
+        Using these insights, answer like a professional analyst.`
+      }
+    ];
+
+    // console.log("Chat Messages:", chatMessages);
+
+    // GROQ API call
+    const aiRes = await groq.chat.completions.create({
+      model: "llama-3.1-8b-instant",
+      messages: chatMessages
+    });
+
+    const reply = aiRes.choices[0]?.message?.content || "Unable to generate response.";
+
+    res.json({
+      reply,
+      computed,
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Chat analytics failed" });
   }
 });
 

@@ -212,27 +212,34 @@ export default function AISummaryWidget({ page, filters }) {
         }}
         className="fixed bottom-6 right-6 w-14 h-14 bg-blue-300 border border-gray-500 text-white rounded-full shadow-xl hover:bg-blue-700 flex items-center justify-center text-3xl z-50"
       >
-        🔍
+        📊
       </button>)}
 
       {/* Popup Summary Box */}
       {open && (
-        <div className="fixed bottom-0 right-0 m-2 sm:m-4 bg-white w-[95vw] max-w-md max-h-[80vh] shadow-xl rounded-lg p-4 overflow-y-auto border border-gray-200 z-40">
-          <div className="flex justify-between items-center border-b pb-2">
+        <div className="fixed bottom-0 right-0 m-2 sm:m-4 bg-white w-[90vw] max-w-md h-[70vh]
+                        shadow-xl rounded-lg flex flex-col border border-gray-200 z-40">
+
+          {/* Sticky Header */}
+          <div className="flex justify-between items-center border-b px-4 py-3
+                          sticky top-0 bg-white z-50">
             <h2 className="font-semibold text-lg">AI Summary Insights</h2>
             <button onClick={() => setOpen(false)} className="text-gray-500 hover:text-gray-700">
               ❌
             </button>
           </div>
 
-          {loading && <Loader />}
-          {/* {!loading && summary && <div className="mt-3">{renderSummary(summary)}</div>} */}
-          {!loading && typedSummary && (
-            <div className="mt-3 whitespace-pre-wrap text-sm">
-              {renderSummary(typedSummary)}
-              <span className="animate-pulse">|</span> {/* blinking cursor effect */}
-            </div>
-          )}
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto p-4">
+            {loading && <Loader />}
+
+            {!loading && typedSummary && (
+              <div className="whitespace-pre-wrap text-sm">
+                {renderSummary(typedSummary)}
+              </div>
+            )}
+          </div>
+
         </div>
       )}
     </>

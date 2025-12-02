@@ -6,6 +6,7 @@ import SectorDistribution from "../modules/sector/SectorDistribution";
 import SectorIntensity from "../modules/sector/SectorIntensity";
 import SectorLikelihood from "../modules/sector/SectorLikelihood";
 import AISummaryWidget from "../components/AISummaryWidget";
+import ChatAnalytics from "../components/ChatAnalytics";
 
 export default function SectorPage({filters, setFilters, filterOptions, setFilterOptions}) {
   return (
@@ -20,6 +21,7 @@ export default function SectorPage({filters, setFilters, filterOptions, setFilte
         <SectorIntensity filters={filters} />
         <SectorLikelihood filters={filters} />
       </GridLayout>
+      <ChatAnalytics page="sector" filters={filters} />
       <AISummaryWidget page="sector" filters={filters} />
     </DashboardLayout>
   );
