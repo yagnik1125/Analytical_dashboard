@@ -768,6 +768,81 @@ function avg(arr) {
   return arr.reduce((a,b)=>a+b,0) / arr.length;
 }
 
+function std(arr) {
+  if (!arr || arr.length === 0) return 0;
+
+  const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+
+  const variance =
+    arr.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) /
+    arr.length;
+
+  return Number(variance ** 0.5); // sqrt
+}
+
+function bucket(arr, key, size = 1) {
+  const map = {};
+
+  arr.forEach(item => {
+    let value = item[key];
+
+    if (typeof value !== "number") return;
+
+    const bucketKey = Math.floor(value / size) * size;
+
+    map[bucketKey] = (map[bucketKey] || 0) + 1;
+  });
+
+  return Object.keys(map)
+    .sort((a, b) => Number(a) - Number(b))
+    .map(k => ({ bucket: Number(k), count: map[k] }));
+}
+
+function movingAvg(arr, window = 3) {
+  const out = [];
+  for (let i = 0; i < arr.length; i++) {
+    const start = Math.max(0, i - Math.floor(window / 2));
+    const end = Math.min(arr.length, i + Math.ceil(window / 2));
+
+    const slice = arr.slice(start, end).filter(n => typeof n === "number");
+    const avg = slice.reduce((a, b) => a + b, 0) / slice.length;
+
+    out.push(avg);
+  }
+  return out;
+}
+
+function topK(obj, k = 5) {
+  return Object.entries(obj)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, k)
+    .map(([key, count]) => ({ key, count }));
+}
+
+function detectOutliers(arr) {
+  const nums = arr.filter(n => typeof n === "number").sort((a, b) => a - b);
+  if (nums.length < 4) return { outliers: [], lowerBound: null, upperBound: null };
+
+  const q1 = quantile(nums, 0.25);
+  const q3 = quantile(nums, 0.75);
+  const iqr = q3 - q1;
+
+  const lower = q1 - 1.5 * iqr;
+  const upper = q3 + 1.5 * iqr;
+
+  const outliers = nums.filter(n => n < lower || n > upper);
+
+  return { outliers, lowerBound: lower, upperBound: upper };
+}
+
+function quantile(sortedArr, p) {
+  const idx = (sortedArr.length - 1) * p;
+  const lower = Math.floor(idx);
+  const upper = Math.ceil(idx);
+  if (lower === upper) return sortedArr[lower];
+  return sortedArr[lower] * (upper - idx) + sortedArr[upper] * (idx - lower);
+}
+
 function pearson(x,y){
   if(x.length<3||x.length!==y.length)return 0;
   const mX=x.reduce((a,b)=>a+b,0)/x.length,mY=y.reduce((a,b)=>a+b,0)/y.length;
@@ -1163,16 +1238,13 @@ router.post("/chat-analytics", async (req, res) => {
 
     // Core computed insights (common for chatbot)
     const computed = {
-      count: docs.length,
-      avgIntensity: avg(intensity),
-      avgLikelihood: avg(likelihood),
-      avgRelevance: avg(relevance),
-      corr_ir: pearson(intensity, relevance),
-      corr_il: pearson(intensity, likelihood),
-      corr_rl: pearson(relevance, likelihood),
-      topSectors: groupBy(docs, "sector"),
-      topCountries: groupBy(docs, "country"),
-      timeTrend: avgBy(docs, "year", "intensity")
+      meta: {
+        totalRecords: docs.length,
+        filtersApplied: filters,
+        pageContext: page
+      },
+
+      dataset:docs
     };
 
     const compressed = compressInsights(computed, page);
@@ -1182,18 +1254,30 @@ router.post("/chat-analytics", async (req, res) => {
       {
         role: "system",
         content: `
-        You are an expert data analyst chatbot.
-        Your job is to explain insights in simple English.
-        - ALWAYS be conversational like ChatGPT.
-        - ALWAYS explain with numbers from the dataset when relevant.
-        - Translate:
-          intensity → risk intensity
-          likelihood → chance of occurrence
-          relevance → business relevance
-        - You can perform reasoning based on the provided dataset insights.
+        You are **AIVA**, an enterprise-grade AI Data Analyst designed for business dashboards.
+
+        Your role:
+        - Explain insights **backed by numbers**
+        - Perform **logical reasoning** using statistics provided
+        - Stay **conversational yet analytical**
+        - Never hallucinate. If any data is missing → say “data not available”
+        - Always relate insights to business impact
+
+        You have access to:full dataset rows
+
+        Rewrite metrics using friendly terms:
+        - intensity → "Risk Intensity"
+        - likelihood → "Chance of Occurrence"
+        - relevance → "Business Relevance"
+
+        Your answers must:
+        - Use bullet points
+        - Quote numbers (“Risk Intensity increased by **14.2%**”)
+        - Provide short actionable insights (“Consider focusing on X country due to high Y metric”)
+        - Avoid generic statements
         `
       },
-      ...history,
+      ...history.slice(-8),
       {
         role: "user",
         content: `
@@ -1202,7 +1286,8 @@ router.post("/chat-analytics", async (req, res) => {
         Filters: ${JSON.stringify(filters, null, 2)}
         Insights Snapshot: ${JSON.stringify(compressed, null, 2)}
 
-        Using these insights, answer like a professional analyst.`
+        Using these insights, answer like a professional analyst.
+        If needed, request "dataset" mode to access complete data rows.`
       }
     ];
 
@@ -1210,8 +1295,9 @@ router.post("/chat-analytics", async (req, res) => {
 
     // GROQ API call
     const aiRes = await groq.chat.completions.create({
-      model: "llama-3.1-8b-instant",
-      messages: chatMessages
+      model: "llama-3.3-70b-versatile",
+      messages: chatMessages,
+      temperature: 0.3 // more analytical
     });
 
     const reply = aiRes.choices[0]?.message?.content || "Unable to generate response.";

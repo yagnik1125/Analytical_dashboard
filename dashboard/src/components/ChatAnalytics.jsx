@@ -54,162 +54,168 @@ export default function ChatAnalytics({ page, filters }) {
   }
 
   function parseInlineMarkdown(text) {
-      if (!text) return null;
-  
-      const elements = [];
-  
-      // Regex patterns
-      const regex = /(\*\*.*?\*\*|\*.*?\*|`.*?`|\[.*?\]\(.*?\))/g;
-  
-      let lastIndex = 0;
-      let match;
-  
-      while ((match = regex.exec(text)) !== null) {
-          // Push preceding text
-          if (match.index > lastIndex) {
-          elements.push(text.slice(lastIndex, match.index));
-          }
-  
-          const token = match[0];
-  
-          // Bold
-          if (token.startsWith("**") && token.endsWith("**")) {
-          elements.push(
-              <strong className="text-blue-600" key={match.index}>
-              {token.slice(2, -2)}
-              </strong>
-          );
-          }
-          // Italic
-          else if (token.startsWith("*") && token.endsWith("*")) {
-          elements.push(
-              <em className="italic" key={match.index}>
-              {token.slice(1, -1)}
-              </em>
-          );
-          }
-          // Inline code
-          else if (token.startsWith("`") && token.endsWith("`")) {
-          elements.push(
-              <code className="bg-gray-100 px-1 rounded" key={match.index}>
-              {token.slice(1, -1)}
-              </code>
-          );
-          }
-          // Link
-          else if (token.startsWith("[") && token.includes("](")) {
-          const title = token.slice(1, token.indexOf("]("));
-          const url = token.slice(token.indexOf("](") + 2, -1);
-          elements.push(
-              <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 underline"
-              key={match.index}
-              >
-              {title}
-              </a>
-          );
-          }
-  
-        lastIndex = regex.lastIndex;
-      }
-  
-      // Push remaining text
-      if (lastIndex < text.length) {
-        elements.push(text.slice(lastIndex));
-      }
-  
-      return elements;
-    }
-  
-    // Simple parser to split sections based on headings like ### and **
-    function renderSummary(text) {
     if (!text) return null;
+
+    const elements = [];
+    const regex =
+      /\*\*(.*?)\*\*|\*(.*?)\*|`(.*?)`|\[([^\]]+)\]\(([^)]+)\)/g;
+
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        elements.push(text.slice(lastIndex, match.index));
+      }
+
+      // Bold (**text**)
+      if (match[1]) {
+        elements.push(
+          <strong className="text-blue-600" key={match.index}>
+            {match[1]}
+          </strong>
+        );
+      }
+      // Italic (*text*)
+      else if (match[2]) {
+        elements.push(
+          <em className="italic" key={match.index}>
+            {match[2]}
+          </em>
+        );
+      }
+      // Inline code (`code`)
+      else if (match[3]) {
+        elements.push(
+          <code className="bg-gray-100 px-1 rounded" key={match.index}>
+            {match[3]}
+          </code>
+        );
+      }
+      // Link [title](url)
+      else if (match[4] && match[5]) {
+        elements.push(
+          <a
+            key={match.index}
+            href={match[5]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+          >
+            {match[4]}
+          </a>
+        );
+      }
+
+      lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < text.length) elements.push(text.slice(lastIndex));
+
+    return elements;
+  }
+
   
+  // Simple parser to split sections based on headings like ### and **
+  function renderSummary(text) {
+    if (!text) return null;
+
     const lines = text.split("\n");
     const elements = [];
     let currentList = null;
-  
+
+    const flushList = () => {
+      if (currentList) {
+        elements.push(currentList.element);
+        currentList = null;
+      }
+    };
+
     lines.forEach((line, idx) => {
       line = line.trim();
       if (!line) return;
-  
-      // Level 1 heading
-      if (line.startsWith("# ")) {
-        if (currentList) {
-          elements.push(currentList);
-          currentList = null;
-        }
+
+      // Headings
+      if (line.startsWith("#")) {
+        flushList();
+
+        const level = line.match(/^#+/)[0].length;
+        const content = line.replace(/^#+\s*/, "");
+        const parts = parseInlineMarkdown(content);
+
+        const H = `h${Math.min(level, 3)}`;
+
         elements.push(
-          <h1 key={idx} className="text-2xl font-bold mt-4 mb-2 border-b pb-1">
-            {line.replace("# ", "")}
-          </h1>
-        );
-      }
-      // Level 2 heading
-      else if (line.startsWith("## ")) {
-        if (currentList) {
-          elements.push(currentList);
-          currentList = null;
-        }
-        elements.push(
-          <h2 key={idx} className="text-xl font-bold mt-4 mb-2 border-b pb-1">
-            {line.replace("## ", "")}
-          </h2>
-        );
-      }
-      // Level 3 heading
-      else if (line.startsWith("### ")) {
-        if (currentList) {
-          elements.push(currentList);
-          currentList = null;
-        }
-        elements.push(
-          <h3 key={idx} className="text-lg font-bold mt-4 mb-2 border-b pb-1">
-            {line.replace("### ", "")}
-          </h3>
-        );
-      }
-      // Numbered list
-      else if (/^\d+\./.test(line)) {
-        if (!currentList || currentList.type !== "ol") {
-          if (currentList) elements.push(currentList);
-          currentList = <ol key={idx} className="list-decimal list-inside ml-4 mb-2">{[]}</ol>;
-        }
-        const items = React.Children.toArray(currentList.props.children);
-        items.push(<li key={idx}>{line.replace(/^\d+\.\s*/, "")}</li>);
-        currentList = <ol key={idx} className="list-decimal list-inside ml-4 mb-2">{items}</ol>;
-      }
-      // Bullet list
-      else if (line.startsWith("* ")) {
-        if (!currentList || currentList.type !== "ul") {
-          if (currentList) elements.push(currentList);
-          currentList = <ul key={idx} className="list-disc list-inside ml-4 mb-2">{[]}</ul>;
-        }
-        const items = React.Children.toArray(currentList.props.children);
-        items.push(<li key={idx}>{line.replace(/^\* /, "")}</li>);
-        currentList = <ul key={idx} className="list-disc list-inside ml-4 mb-2">{items}</ul>;
-      }
-      // Paragraph
-      else {
-        if (currentList) {
-          elements.push(currentList);
-          currentList = null;
-        }
-        // Replace **bold** inside the line
-        const parts = parseInlineMarkdown(line);
-  
-        elements.push(
-          <p key={idx} className="text-sm mb-2">
+          <H
+            key={idx}
+            className="font-bold mt-4 mb-2 border-b pb-1"
+            style={{ fontSize: level === 1 ? "1.6rem" : level === 2 ? "1.3rem" : "1.1rem" }}
+          >
             {parts}
-          </p>
+          </H>
         );
+        return;
       }
+
+      // Numbered list
+      if (/^\d+\./.test(line)) {
+        const textContent = line.replace(/^\d+\.\s*/, "");
+        const parsed = parseInlineMarkdown(textContent);
+
+        if (!currentList || currentList.type !== "ol") {
+          flushList();
+          currentList = {
+            type: "ol",
+            element: <ol key={idx} className="list-decimal list-inside ml-4 mb-2"></ol>,
+            items: []
+          };
+        }
+
+        currentList.items.push(<li key={idx}>{parsed}</li>);
+        currentList.element = (
+          <ol key={idx} className="list-decimal list-inside ml-4 mb-2">
+            {currentList.items}
+          </ol>
+        );
+        return;
+      }
+
+      // Bullet list
+      if (line.startsWith("* ")) {
+        const textContent = line.replace(/^\* /, "");
+        const parsed = parseInlineMarkdown(textContent);
+
+        if (!currentList || currentList.type !== "ul") {
+          flushList();
+          currentList = {
+            type: "ul",
+            element: <ul key={idx} className="list-disc list-inside ml-4 mb-2"></ul>,
+            items: []
+          };
+        }
+
+        currentList.items.push(<li key={idx}>{parsed}</li>);
+        currentList.element = (
+          <ul key={idx} className="list-disc list-inside ml-4 mb-2">
+            {currentList.items}
+          </ul>
+        );
+        return;
+      }
+
+      // Paragraph
+      flushList();
+
+      const parsed = parseInlineMarkdown(line);
+
+      elements.push(
+        <p key={idx} className="text-sm mb-2">
+          {parsed}
+        </p>
+      );
     });
-  
-    if (currentList) elements.push(currentList);
+
+    flushList();
     return elements;
   }
 
