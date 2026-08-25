@@ -11,7 +11,7 @@ export default function SectorRadarChart({ filters }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("https://analytical-dashboard-vfwl.onrender.com/api/records/sector/intensity", { params: filters })
+    axios.get("/api/records/sector/intensity", { params: filters })
       .then(res => setData(res.data))
       .finally(() => setLoading(false));
   }, [filters]);

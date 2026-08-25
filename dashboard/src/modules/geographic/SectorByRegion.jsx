@@ -20,7 +20,7 @@ export default function SectorByRegion({ filters }) {
 
   useEffect(() => {
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/sector-by-region", { params: filters })
+      .get("/api/records/sector-by-region", { params: filters })
       .then((res) => {
         setData(res.data);
         setIsLoading(false);

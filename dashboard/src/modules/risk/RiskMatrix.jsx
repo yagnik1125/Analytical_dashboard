@@ -18,7 +18,7 @@ export default function RiskMatrix({ filters }) {
 
   useEffect(() => {
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/risk/matrix", {
+      .get("/api/records/risk/matrix", {
         params: filters,
       })
       .then(res => {

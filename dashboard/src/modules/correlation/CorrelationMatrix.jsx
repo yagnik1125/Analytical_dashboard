@@ -24,7 +24,7 @@ export default function CorrelationMatrix({ filters }) {
     setError(null);
 
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/correlation-data", { params: filters })
+      .get("/api/records/correlation-data", { params: filters })
       .then((res) => {
         setRecords(res.data);
         setIsLoading(false);

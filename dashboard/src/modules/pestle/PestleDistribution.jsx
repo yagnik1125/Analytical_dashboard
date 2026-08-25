@@ -21,7 +21,7 @@ export default function PestleDistribution({ filters }) {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/pestle-analysis", { params: filters })
+      .get("/api/records/pestle-analysis", { params: filters })
       .then((res) => {
         setData(res.data);
         setIsLoading(false);

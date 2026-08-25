@@ -22,7 +22,7 @@ export default function IntensityRelevanceScatter({ filters }) {
     setIsLoading(true);
 
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/scatter-intensity-relevance", { params: filters })
+      .get("/api/records/scatter-intensity-relevance", { params: filters })
       .then((res) => {
         setRecords(res.data);
         setIsLoading(false);

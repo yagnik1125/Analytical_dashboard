@@ -59,6 +59,24 @@ npm install
 npm run dev      # UI at http://localhost:5173
 ```
 
+## Deploy to Netlify
+
+The repository is configured as one Netlify site:
+
+- Build command: `npm run build`
+- Publish directory: `dashboard/dist`
+- Functions directory: `netlify/functions`
+- API URL: `/api/...` (proxied to the Express function)
+
+Set these environment variables in Netlify before deploying:
+
+```text
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/database
+CORS_ORIGIN=https://your-site.netlify.app
+```
+
+The MongoDB Atlas network access rules must allow Netlify function traffic. The API function is available at `/api/records/...`; local development continues to use `npm run dev` from `backend`.
+
 ---
 
 ## 📌 Highlights

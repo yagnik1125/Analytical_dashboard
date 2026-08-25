@@ -25,7 +25,7 @@ export default function App() {
   const [filterOptions, setFilterOptions] = useState(null);
 
   useEffect(() => {
-    axios.get("https://analytical-dashboard-vfwl.onrender.com/api/records/filters")
+    axios.get("/api/records/filters")
       .then(res => setFilterOptions(res.data))
       .catch(err => console.error("Filters API Error:", err));
   }, []);

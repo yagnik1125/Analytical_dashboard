@@ -9,7 +9,7 @@ export default function TopTopics({ filters }) {
 
   useEffect(() => {
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/topic/top", { params: filters })
+      .get("/api/records/topic/top", { params: filters })
       .then(res => {
         setTopics(res.data);
         setLoading(false);

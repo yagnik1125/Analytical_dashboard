@@ -19,7 +19,7 @@ export default function SectorDistribution({ filters }) {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/sector/distribution", { params: filters })
+      .get("/api/records/sector/distribution", { params: filters })
       .then((res) => {
         setData(res.data);
         setLoading(false);

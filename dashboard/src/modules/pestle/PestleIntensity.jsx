@@ -20,7 +20,7 @@ export default function PestleIntensity({ filters }) {
 
   useEffect(() => {
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/pestle-analysis", { params: filters })
+      .get("/api/records/pestle-analysis", { params: filters })
       .then((res) => {
         setData(res.data);
         setIsLoading(false);

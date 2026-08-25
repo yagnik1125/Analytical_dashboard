@@ -21,7 +21,7 @@ export default function SectorIntensity({ filters }) {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/sector/intensity", { params: filters })
+      .get("/api/records/sector/intensity", { params: filters })
       .then((res) => {
         setData(res.data);
         setLoading(false);

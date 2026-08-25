@@ -19,7 +19,7 @@ export default function HighRiskTopics({ filters }) {
 
   useEffect(() => {
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/risk/high-risk-topics", {
+      .get("/api/records/risk/high-risk-topics", {
         params: filters,
       })
       .then(res => {

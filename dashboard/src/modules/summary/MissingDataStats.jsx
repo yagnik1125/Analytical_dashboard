@@ -11,7 +11,7 @@ export default function MissingDataStats({ filters }) {
     setLoading(true);
 
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/summary/missing-data", { params: filters })
+      .get("/api/records/summary/missing-data", { params: filters })
       .then((res) => {
         setStats(res.data);
         setLoading(false);

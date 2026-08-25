@@ -12,7 +12,7 @@ export default function IntensityByYear({ filters }) {
 
   useEffect(() => {
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/time/intensity-by-year", { params: filters })
+      .get("/api/records/time/intensity-by-year", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

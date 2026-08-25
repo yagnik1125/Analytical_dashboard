@@ -14,7 +14,7 @@ export default function SourceIntensity({ filters }) {
     setLoading(true);
 
     axios
-      .get("https://analytical-dashboard-vfwl.onrender.com/api/records/source/intensity", { params: filters })
+      .get("/api/records/source/intensity", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);
