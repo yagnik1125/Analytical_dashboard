@@ -11,7 +11,7 @@ export default function SummaryKPIs({ filters }) {
     setLoading(true);
 
     axios
-      .get("/api/records/summary/kpis", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/summary/kpis", { params: filters })
       .then((res) => {
         setKpis(res.data);
         setLoading(false);

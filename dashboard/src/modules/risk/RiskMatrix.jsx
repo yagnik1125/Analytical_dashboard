@@ -18,7 +18,7 @@ export default function RiskMatrix({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/risk/matrix", {
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/risk/matrix", {
         params: filters,
       })
       .then(res => {

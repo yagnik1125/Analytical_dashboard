@@ -19,7 +19,7 @@ export default function HighRiskTopics({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/risk/high-risk-topics", {
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/risk/high-risk-topics", {
         params: filters,
       })
       .then(res => {

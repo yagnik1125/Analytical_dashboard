@@ -18,7 +18,7 @@ export default function LikelihoodVsIntensity({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/risk/likelihood-intensity", {
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/risk/likelihood-intensity", {
         params: filters,
       })
       .then(res => {

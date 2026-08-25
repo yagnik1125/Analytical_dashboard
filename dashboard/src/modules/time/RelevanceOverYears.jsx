@@ -12,7 +12,7 @@ export default function RelevanceOverYears({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/time/relevance-over-years", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/time/relevance-over-years", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

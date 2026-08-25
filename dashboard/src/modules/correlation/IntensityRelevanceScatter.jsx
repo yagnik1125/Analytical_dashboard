@@ -22,7 +22,7 @@ export default function IntensityRelevanceScatter({ filters }) {
     setIsLoading(true);
 
     axios
-      .get("/api/records/scatter-intensity-relevance", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/scatter-intensity-relevance", { params: filters })
       .then((res) => {
         setRecords(res.data);
         setIsLoading(false);

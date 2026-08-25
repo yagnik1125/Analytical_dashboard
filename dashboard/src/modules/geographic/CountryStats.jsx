@@ -21,7 +21,7 @@ export default function CountryStats({ filters }) {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("/api/records/country-stats", {
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/country-stats", {
         params: filters,
       })
       .then((res) => {

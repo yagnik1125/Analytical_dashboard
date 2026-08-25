@@ -23,7 +23,7 @@ export default function SourceLikelihood({ filters }) {
     setLoading(true);
 
     axios
-      .get("/api/records/source/likelihood", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/source/likelihood", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

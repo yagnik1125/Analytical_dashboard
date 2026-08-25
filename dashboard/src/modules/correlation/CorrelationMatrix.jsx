@@ -24,7 +24,7 @@ export default function CorrelationMatrix({ filters }) {
     setError(null);
 
     axios
-      .get("/api/records/correlation-data", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/correlation-data", { params: filters })
       .then((res) => {
         setRecords(res.data);
         setIsLoading(false);

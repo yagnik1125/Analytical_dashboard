@@ -21,7 +21,7 @@ export default function InsightsPerYear({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/time/insights-per-year", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/time/insights-per-year", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

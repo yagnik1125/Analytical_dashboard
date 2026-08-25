@@ -14,7 +14,7 @@ export default function SourceDistribution({ filters }) {
     setLoading(true);
 
     axios
-      .get("/api/records/source/distribution", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/source/distribution", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

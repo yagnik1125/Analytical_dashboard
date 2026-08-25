@@ -11,7 +11,7 @@ export default function MissingDataStats({ filters }) {
     setLoading(true);
 
     axios
-      .get("/api/records/summary/missing-data", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/summary/missing-data", { params: filters })
       .then((res) => {
         setStats(res.data);
         setLoading(false);

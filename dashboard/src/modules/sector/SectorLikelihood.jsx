@@ -22,7 +22,7 @@ export default function SectorLikelihood({ filters }) {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/api/records/sector/likelihood", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/sector/likelihood", { params: filters })
       .then((res) => {
         setData(res.data);
         setLoading(false);

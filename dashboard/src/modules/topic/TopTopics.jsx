@@ -9,7 +9,7 @@ export default function TopTopics({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/topic/top", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/topic/top", { params: filters })
       .then(res => {
         setTopics(res.data);
         setLoading(false);

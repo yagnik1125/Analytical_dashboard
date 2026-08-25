@@ -21,7 +21,7 @@ export default function PestleDistribution({ filters }) {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("/api/records/pestle-analysis", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/pestle-analysis", { params: filters })
       .then((res) => {
         setData(res.data);
         setIsLoading(false);

@@ -9,7 +9,7 @@ export default function TopicLikelihood({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/topic/likelihood", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/topic/likelihood", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

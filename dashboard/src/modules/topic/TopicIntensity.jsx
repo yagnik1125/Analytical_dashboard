@@ -9,7 +9,7 @@ export default function TopicIntensity({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/topic/intensity", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/topic/intensity", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);

@@ -20,7 +20,7 @@ export default function RegionHeatmap({ filters }) {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("/api/records/region-heatmap", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/region-heatmap", { params: filters })
       .then((res) => {
         setData(res.data);
         setIsLoading(false);

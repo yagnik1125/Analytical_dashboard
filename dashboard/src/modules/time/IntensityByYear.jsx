@@ -12,7 +12,7 @@ export default function IntensityByYear({ filters }) {
 
   useEffect(() => {
     axios
-      .get("/api/records/time/intensity-by-year", { params: filters })
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/time/intensity-by-year", { params: filters })
       .then(res => {
         setData(res.data);
         setLoading(false);
