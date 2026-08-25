@@ -29,7 +29,7 @@ export default function useFilters() {
   // Fetch available filter options
   useEffect(() => {
     axios
-      .get("/api/records/filters")
+      .get("https://analytical-dashboard-backend.netlify.app/api/records/filters")
       .then((res) => {
         setOptions(res.data);
       })

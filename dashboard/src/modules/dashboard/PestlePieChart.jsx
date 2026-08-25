@@ -11,7 +11,7 @@ export default function PestlePieChart({ filters }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("/api/records/pestle-analysis", { params: filters })
+    axios.get("https://analytical-dashboard-backend.netlify.app/api/records/pestle-analysis", { params: filters })
       .then(res => setData(res.data))
       .finally(() => setLoading(false));
   }, [filters]);

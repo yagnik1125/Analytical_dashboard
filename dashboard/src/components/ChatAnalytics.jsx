@@ -237,7 +237,7 @@ export default function ChatAnalytics({ page, filters }) {
 
     try {
       const res = await axios.post(
-        "https://analytical-dashboard-backend.netlify.app//api/records/chat-analytics",
+        "https://analytical-dashboard-backend.netlify.app/api/records/chat-analytics",
         {
           message: newMessage.content,
           filters,

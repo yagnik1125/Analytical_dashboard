@@ -25,7 +25,7 @@ export default function App() {
   const [filterOptions, setFilterOptions] = useState(null);
 
   useEffect(() => {
-    axios.get("/api/records/filters")
+    axios.get("https://analytical-dashboard-backend.netlify.app/api/records/filters")
       .then(res => setFilterOptions(res.data))
       .catch(err => console.error("Filters API Error:", err));
   }, []);
